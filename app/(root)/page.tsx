@@ -1,10 +1,11 @@
-import Image from 'next/image';
-
-import { UTILITIES } from '../constants';
 import SearchForm from '@/components/SearchForm';
 import StartUpCard, { StartUpCardType } from '@/components/StartUpCard';
-import { client } from '@/sanity/lib/client';
+
 import { STARTUPS_QUERY } from '@/sanity/lib/queries';
+import { sanityFetch, SanityLive } from '@/sanity/lib/live';
+import markdownit from 'markdown-it';
+import { auth } from '@/auth';
+const md = markdownit();
 
 export default async function Home({
   searchParams,
@@ -12,9 +13,13 @@ export default async function Home({
   searchParams: Promise<{ query?: string }>;
 }) {
   const query = (await searchParams).query;
-  const posts = await client.fetch(STARTUPS_QUERY);
 
-  console.log(JSON.stringify(posts, null, 2));
+  const params = { search: query || null };
+
+  const session = await auth();
+  console.log(session?.id);
+
+  const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
 
   return (
     <>
@@ -33,7 +38,7 @@ export default async function Home({
         <p className="text-xl font-semibold">
           {query ? `Search Results For The Following ${query}` : 'All StartUps'}
         </p>
-        <ul className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <ul className="mt-7 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {posts.length > 0 ? (
             posts.map((post: StartUpCardType, i: number) => (
               <StartUpCard key={post?._id} post={post} />
@@ -45,6 +50,7 @@ export default async function Home({
           )}
         </ul>
       </section>
+      <SanityLive />
     </>
   );
 }

@@ -11,7 +11,6 @@ export type StartUpCardType = Omit<Startup, 'author'> & { author?: Author };
 const StartUpCard = ({ post }: { post: StartUpCardType }) => {
   const { _createdAt, view, author, title, category, description, image, _id } =
     post;
-  console.log(image);
 
   return (
     <li className="bg-white border-4 border-black p-6 rounded-2xl shadow-md hover:border-[#EE2B69] hover:shadow-lg hover:bg-pink-100 transition-all duration-300 hover:border-[]">

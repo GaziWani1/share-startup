@@ -742,7 +742,7 @@
         },
         "optional": true
       },
-      "view": {
+      "views": {
         "type": "objectAttribute",
         "value": {
           "type": "number"
