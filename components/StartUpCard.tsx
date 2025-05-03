@@ -1,22 +1,17 @@
-import { UTILITIES } from '@/app/constants';
 import { formateDate } from '@/lib/utils';
 import { EyeIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { Button } from './ui/button';
+import { Author, Startup } from '@/sanity.types';
 
-const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
-  const {
-    _createdAt,
-    views,
-    author: { _id: authorId, name },
-    title,
-    category,
-    description,
-    image,
-    _id,
-  } = post;
+export type StartUpCardType = Omit<Startup, 'author'> & { author?: Author };
+
+const StartUpCard = ({ post }: { post: StartUpCardType }) => {
+  const { _createdAt, view, author, title, category, description, image, _id } =
+    post;
+  console.log(image);
 
   return (
     <li className="bg-white border-4 border-black p-6 rounded-2xl shadow-md hover:border-[#EE2B69] hover:shadow-lg hover:bg-pink-100 transition-all duration-300 hover:border-[]">
@@ -25,16 +20,16 @@ const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
         <p>{formateDate(_createdAt)}</p>
         <div className="flex items-center gap-2">
           <EyeIcon className="w-5 h-5 text-primary" />
-          <span>{views}</span>
+          <span>{view}</span>
         </div>
       </div>
 
       {/* Author + Title */}
       <div className="flex justify-between items-center mt-4 gap-4">
         <div className="flex-1">
-          <Link href={`/user/post/${authorId}`}>
+          <Link href={`/user/post/${author?._id}`}>
             <p className="text-gray-800 text-sm font-semibold line-clamp-1 hover:underline">
-              {name}
+              {author?.name}
             </p>
           </Link>
           <Link href={`/startup/${_id}`}>
@@ -43,10 +38,10 @@ const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
             </h3>
           </Link>
         </div>
-        <Link href={`/user/${authorId}`}>
+        <Link href={`/user/${author?._id}`}>
           <Image
-            src="https://placehold.co/48x48"
-            alt={`${name}'s avatar`}
+            src={author?.image || ''}
+            alt={`${author?.name}'s avatar`}
             width={48}
             height={48}
             className="rounded-full object-cover"
@@ -68,7 +63,7 @@ const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
 
       {/* Category + Button */}
       <div className="flex justify-between items-center mt-5">
-        <Link href={`/?query=${category.toLowerCase()}`}>
+        <Link href={`/?query=${category?.toLowerCase()}`}>
           <p className="text-base font-medium text-gray-900 hover:underline">
             {category}
           </p>

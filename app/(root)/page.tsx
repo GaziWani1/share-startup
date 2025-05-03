@@ -2,24 +2,9 @@ import Image from 'next/image';
 
 import { UTILITIES } from '../constants';
 import SearchForm from '@/components/SearchForm';
-import StartUpCard from '@/components/StartUpCard';
-
-const posts = [
-  {
-    _createdAt: new Date(),
-    views: 55,
-    author: {
-      _id: 1,
-      name: 'Elon Mask',
-    },
-    _id: 1,
-    description: 'This is a description',
-    image:
-      'https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG5hdHVyZXxlbnwwfHwwfHx8MA%3D%3D',
-    category: 'Robots',
-    title: 'We Robots',
-  },
-];
+import StartUpCard, { StartUpCardType } from '@/components/StartUpCard';
+import { client } from '@/sanity/lib/client';
+import { STARTUPS_QUERY } from '@/sanity/lib/queries';
 
 export default async function Home({
   searchParams,
@@ -27,6 +12,10 @@ export default async function Home({
   searchParams: Promise<{ query?: string }>;
 }) {
   const query = (await searchParams).query;
+  const posts = await client.fetch(STARTUPS_QUERY);
+
+  console.log(JSON.stringify(posts, null, 2));
+
   return (
     <>
       <section className="w-full bg-[#EE2B69] min-h-[530px] pattern flex justify-center items-center flex-col py-10 px-6">
