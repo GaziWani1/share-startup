@@ -1,6 +1,9 @@
 import { formateDate } from '@/lib/utils';
 import { client } from '@/sanity/lib/client';
-import { STARTUP_BY_ID_QUERY } from '@/sanity/lib/queries';
+import {
+  PLAYLIST_BY_SLUG_QUERY,
+  STARTUP_BY_ID_QUERY,
+} from '@/sanity/lib/queries';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -9,6 +12,7 @@ import markdownit from 'markdown-it';
 import { Skeleton } from '@/components/ui/skeleton';
 import View from '@/components/View';
 import { updateViews } from '@/lib/actions';
+import StartUpCard, { StartUpCardType } from '@/components/StartUpCard';
 const md = markdownit();
 
 const StartUpDetails = async ({
@@ -17,7 +21,12 @@ const StartUpDetails = async ({
   params: Promise<{ id: string }>;
 }) => {
   const id = (await params).id;
-  const post = await client.fetch(STARTUP_BY_ID_QUERY, { id });
+  const [post, { select: editorPosts }] = await Promise.all([
+    client.fetch(STARTUP_BY_ID_QUERY, { id }),
+    client.fetch(PLAYLIST_BY_SLUG_QUERY, {
+      slug: 'editor-picks-new',
+    }),
+  ]);
   await updateViews(id);
   const parsedContent = md.render(post?.pitch || '');
   if (!post) return notFound();
@@ -49,8 +58,8 @@ const StartUpDetails = async ({
               <Image
                 src={post?.author?.image}
                 alt="avatr"
-                width={64}
-                height={64}
+                width={50}
+                height={50}
                 className="rounded-full drop-shadow-lg"
               />
               <div>
@@ -79,7 +88,19 @@ const StartUpDetails = async ({
           )}
         </div>
         <hr className="divider my-4" />
-        {/* TODO Editor selected startups */}
+
+        {editorPosts?.length > 0 && (
+          <div className="max-w-4xl mx-auto">
+            <p className="text-[30px] font-semibold">Editor Picks</p>
+
+            <ul className="mt-7 grid sm:grid-cols-2 gap-5">
+              {editorPosts.map((post: StartUpCardType, i: number) => (
+                <StartUpCard key={i} post={post} />
+              ))}
+            </ul>
+          </div>
+        )}
+
         <Suspense
           fallback={
             <Skeleton className=" bg-zinc-400 h-10 w-24 rounded-lg fixed bottom-3 right-3" />
