@@ -9,7 +9,7 @@ export const STARTUPS_QUERY =
   author -> {
     _id, name, image, bio
   }, 
-  view,
+  views,
   description,
   category,
   image,
@@ -24,7 +24,7 @@ export const STARTUP_BY_ID_QUERY =
   author -> {
     _id, name, username, image, bio
   }, 
-  view,
+  views,
   description,
   category,
   image,
@@ -33,7 +33,7 @@ export const STARTUP_BY_ID_QUERY =
 
 export const STARTUP_VIEWS_QUERY = defineQuery(`
     *[_type == "startup" && _id == $id][0]{
-        _id, view
+        _id, views
     }
 `);
 
@@ -70,7 +70,7 @@ export const STARTUPS_BY_AUTHOR_QUERY =
   author -> {
     _id, name, image, bio
   }, 
-  view,
+  views,
   description,
   category,
   image,
@@ -93,7 +93,7 @@ export const PLAYLIST_BY_SLUG_QUERY =
       image,
       bio
     },
-    view,
+    views,
     description,
     category,
     image,

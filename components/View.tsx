@@ -7,7 +7,7 @@ import { formateViews } from '@/lib/utils';
 import { after } from 'node:test';
 
 const View = async ({ id }: { id: string }) => {
-  const { view: totalViews } = await client
+  const { views: totalViews } = await client
     .withConfig({
       useCdn: true,
     })

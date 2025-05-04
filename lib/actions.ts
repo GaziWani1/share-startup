@@ -76,8 +76,8 @@ export const updateViews = async (startupId: string) => {
   try {
     const result = await writeClient
       .patch(startupId)
-      .setIfMissing({ view: 0 }) // ensure views exists
-      .inc({ view: 1 }) // increment
+      .setIfMissing({ views: 0 }) // ensure views exists
+      .inc({ views: 1 }) // increment
       .commit();
 
     return { success: true, views: result.views };

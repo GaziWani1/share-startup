@@ -10,8 +10,16 @@ import { Skeleton } from './ui/skeleton';
 export type StartUpCardType = Omit<Startup, 'author'> & { author?: Author };
 
 const StartUpCard = ({ post }: { post: StartUpCardType }) => {
-  const { _createdAt, view, author, title, category, description, image, _id } =
-    post;
+  const {
+    _createdAt,
+    views,
+    author,
+    title,
+    category,
+    description,
+    image,
+    _id,
+  } = post;
 
   return (
     <li className="bg-white border-4 border-black p-6 rounded-2xl shadow-md hover:border-[#EE2B69] hover:shadow-lg hover:bg-pink-100 transition-all duration-300 hover:border-[]">
@@ -20,7 +28,7 @@ const StartUpCard = ({ post }: { post: StartUpCardType }) => {
         <p>{formateDate(_createdAt)}</p>
         <div className="flex items-center gap-2">
           <EyeIcon className="w-5 h-5 text-primary" />
-          <span>{view}</span>
+          <span>{views}</span>
         </div>
       </div>
 
