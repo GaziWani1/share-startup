@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { auth, signOut, signIn } from '@/auth';
 import { BadgePlus, LogOut } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
