@@ -1,10 +1,11 @@
-import { formateDate } from '@/lib/utils';
+import { cn, formateDate } from '@/lib/utils';
 import { EyeIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { Button } from './ui/button';
 import { Author, Startup } from '@/sanity.types';
+import { Skeleton } from './ui/skeleton';
 
 export type StartUpCardType = Omit<Startup, 'author'> & { author?: Author };
 
@@ -75,4 +76,13 @@ const StartUpCard = ({ post }: { post: StartUpCardType }) => {
   );
 };
 
+export const StartupCardSkeleton = () => (
+  <>
+    {[0, 1, 2, 3, 4].map((index: number) => (
+      <li key={cn('skeleton', index)}>
+        <Skeleton className="w-full h-96 rounded-[22px] bg-zinc-400" />
+      </li>
+    ))}
+  </>
+);
 export default StartUpCard;
