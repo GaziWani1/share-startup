@@ -1,6 +1,6 @@
 import { formateDate } from '@/lib/utils';
 import { client } from '@/sanity/lib/client';
-import { STARTUPS_DETAIL_QUERY } from '@/sanity/lib/queries';
+import { STARTUP_BY_ID_QUERY } from '@/sanity/lib/queries';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -8,6 +8,7 @@ import React, { Suspense } from 'react';
 import markdownit from 'markdown-it';
 import { Skeleton } from '@/components/ui/skeleton';
 import View from '@/components/View';
+import { updateViews } from '@/lib/actions';
 const md = markdownit();
 
 const StartUpDetails = async ({
@@ -16,7 +17,8 @@ const StartUpDetails = async ({
   params: Promise<{ id: string }>;
 }) => {
   const id = (await params).id;
-  const post = await client.fetch(STARTUPS_DETAIL_QUERY, { id });
+  const post = await client.fetch(STARTUP_BY_ID_QUERY, { id });
+  await updateViews(id);
   const parsedContent = md.render(post?.pitch || '');
   if (!post) return notFound();
   return (

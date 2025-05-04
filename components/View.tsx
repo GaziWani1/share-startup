@@ -2,7 +2,7 @@ import React from 'react';
 import Ping from './Ping';
 import { client } from '@/sanity/lib/client';
 import { writeClient } from '@/sanity/lib/write-client';
-import { STARTUPS_QUERY_VIEWS } from '@/sanity/lib/queries';
+import { STARTUP_VIEWS_QUERY } from '@/sanity/lib/queries';
 import { formateViews } from '@/lib/utils';
 import { after } from 'node:test';
 
@@ -11,7 +11,7 @@ const View = async ({ id }: { id: string }) => {
     .withConfig({
       useCdn: true,
     })
-    .fetch(STARTUPS_QUERY_VIEWS, { id });
+    .fetch(STARTUP_VIEWS_QUERY, { id });
 
   after(
     async () =>
