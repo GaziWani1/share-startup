@@ -17,7 +17,9 @@ const Navbar = async () => {
           {session && session?.user ? (
             <>
               <Link href="/startup/create">
-                <span className="max-sm:hidden">Create</span>
+                <span className="max-sm:hidden  bg-[#00ffea] px-3 py-2 cursor-pointer font-semibold rounded text-white">
+                  Create
+                </span>
                 <BadgePlus className="size-6 sm:hidden" />
               </Link>
 
@@ -29,7 +31,9 @@ const Navbar = async () => {
                 }}
               >
                 <button type="submit">
-                  <span className="max-sm:hidden">Logout</span>
+                  <span className="max-sm:hidden g-[#EE2B69] px-3 py-2 cursor-pointer font-semibold rounded text-white ">
+                    Logout
+                  </span>
                   <LogOut className="size-6 sm:hidden text-red-500" />
                 </button>
               </form>
@@ -52,7 +56,12 @@ const Navbar = async () => {
                 await signIn('github');
               }}
             >
-              <button type="submit">Login</button>
+              <button
+                className="bg-[#EE2B69] px-3 py-2 cursor-pointer font-semibold rounded text-white"
+                type="submit"
+              >
+                Login
+              </button>
             </form>
           )}
         </div>

@@ -9,7 +9,7 @@ export const STARTUPS_QUERY =
   author -> {
     _id, name, image, bio
   }, 
-  views,
+  view,
   description,
   category,
   image,
